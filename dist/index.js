@@ -25,7 +25,8 @@ async function fetchGraphQL(operationsDoc, operationName, variables) {
       })
     }
   );
-  return result.json();
+  const d = await result.json();
+  return d.data.boat[0];
 }
 
 const operationsDoc = `
@@ -125,7 +126,6 @@ async function create_or_update_boat(oga_no) {
   return boat;
 }
 
-console.log('v17');
 try {
   const ogaNo = core.getInput('oga-no');
   create_or_update_boat(ogaNo).then((data) => {
