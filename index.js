@@ -125,7 +125,7 @@ try {
   create_or_update_boat(ogaNo).then((data) => {
     core.setOutput("boat", JSON.stringify(data));
   }).catch(error => {
-    console.log('handled promise error on create_or_update_boat');
+    console.log('handled promise error on create_or_update_boat', error);
     core.setFailed(error.message);
   });
 } catch (error) {
