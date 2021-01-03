@@ -74,7 +74,7 @@ function fetchMyQuery(oga_no) {
 try {
   const ogaNo = core.getInput('oga-no');
   fetchMyQuery(ogaNo).then((data) => {
-    core.setOutput("boat", data);
+    core.setOutput("boat", JSON.stringify(data));
   }).catch(error => {
     core.setFailed(error.message);
   });
