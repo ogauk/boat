@@ -107,20 +107,21 @@ function makedoc(boat) {
 
 async function create_or_update_boat(oga_no) {
   const path = oga_no;
+  const url = `https://api.github.com/repos/ogauk/boat/contents/${path}`;
   const p = { owner: 'ogauk', repo: 'boat', path };
   try {
-    const data = await octokit.request(`GET /repos/ogauk/boat/contents/${path}`, p);
+    const data = await octokit.request(`GET ${url}`, p);
     console.log('got boat from repo');
     p.sha = r.data.sha;
   } catch(e) {
-    console.log('new boat', oga_no);
+    console.log('new boat', oga_no, e);
   }
   p.message = 'update from postgreSQL';
   const boat = await fetchMyQuery(oga_no);
   console.log('got boat from database');
   p.content = Base64.encode(JSON.stringify(makedoc(boat)));
   console.log('x', p);
-  const r = await octokit.request(`PUT /repos/ogauk/boat/contents/${path}`, p);
+  const r = await octokit.request(`PUT ${url}`, p);
   console.log('put boat from database to repo');
   console.log('r', r);
   return boat;
