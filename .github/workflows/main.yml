@@ -1,5 +1,10 @@
 name: get boat
-on: [push]
+on:
+  workflow_dispatch:
+    inputs:
+      oga_no:
+        description: 'Boat OGA No'
+        required: true
 
 jobs:
   boat_job:
@@ -10,7 +15,7 @@ jobs:
       id: boat
       uses: ogauk/boat@v1.5
       with:
-        oga-no: '2244'
+        oga-no: ${{ github.event.inputs.oga_no }}
     # Use the output from the `boat` step
     - name: Get the output data
       run: echo "the data is ${{ steps.boat.outputs.boat }}"
