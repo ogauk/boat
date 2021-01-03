@@ -110,7 +110,7 @@ async function create_or_update_boat(oga_no) {
   p.message = 'update from postgreSQL';
   const boat = await fetchMyQuery(oga_no);
   console.log('got boat from database');
-  p.content = Base64.encode(makedoc(boat));
+  p.content = Base64.encode(JSON.stringify(makedoc(boat)));
   console.log('x', p);
   const r = await octokit.request(`PUT /repos/ogauk/boat/contents/${path}`, p);
   console.log('put boat from database to repo');
