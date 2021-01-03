@@ -1,6 +1,10 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const fetch = require("node-fetch");
+const {Base64} = require('js-base64');
+const { Octokit } = require("@octokit/rest");
+
+const octokit = new Octokit();
 
 async function fetchGraphQL(operationsDoc, operationName, variables) {
   const result = await fetch(
@@ -71,9 +75,49 @@ function fetchMyQuery(oga_no) {
   );
 }
 
+const template = {
+  staticQueryHashes: [],
+  componentChunkName: "component---src-templates-boattemplate-jsx",
+  path: "/boat/$1",
+  result: {
+    pageContext: {
+      pathSlug: "/boat/$1",
+      home: "/",
+      absolute: "https://oga.org.uk",
+      boat: {}
+    }
+  }
+}
+
+function makedoc(boat) {
+  const doc = {...template};
+  doc.path = `/boat/${boat.oga_no}`;
+  doc.result.pageContext.pathSlug = doc.path;
+  doc.result.pageContext.boat = boat;
+  return doc;
+}
+
+async function create_or_update_boat(oga_no) {
+  const path = oga_no;
+  const p = { owner: 'ogauk', repo: 'boat', path };
+  const data = await octokit.request(`GET /repos/ogauk/boat/contents/${path}`, p);
+  try {
+    const r = await get_boat(oga_no);
+    p.sha = r.data.sha;
+  } catch(e) {
+    console.log('new boat', oga_no);
+  }
+  p.message = 'update from postgreSQL';
+  const boat = await fetchMyQuery(oga_no);
+  p.content = Base64.encode(makedoc(boat));
+  const r = await octokit.request(`PUT /repos/ogauk/boat/contents/${path}`, p);
+  console.log(r);
+  return boat;
+}
+
 try {
   const ogaNo = core.getInput('oga-no');
-  fetchMyQuery(ogaNo).then((data) => {
+  create_or_update_boat(ogaNo).then((data) => {
     core.setOutput("boat", JSON.stringify(data));
   }).catch(error => {
     core.setFailed(error.message);
