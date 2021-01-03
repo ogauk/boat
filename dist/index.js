@@ -125,6 +125,7 @@ async function create_or_update_boat(oga_no) {
   return boat;
 }
 
+console.log('v17');
 try {
   const ogaNo = core.getInput('oga-no');
   create_or_update_boat(ogaNo).then((data) => {
@@ -137,6 +138,7 @@ try {
   console.log('exception in create_or_update_boat');
   core.setFailed(error.message);
 }
+
 
 
 /***/ }),
