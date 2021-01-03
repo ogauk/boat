@@ -1,0 +1,15 @@
+on: [push]
+
+jobs:
+  boat_job:
+    runs-on: ubuntu-latest
+    name: A job to get a boat
+    steps:
+    - name: get boat action step
+      id: boat
+      uses: actions/boat@v1.1
+      with:
+        oga-no: '2244'
+    # Use the output from the `boat` step
+    - name: Get the output data
+      run: echo "the data is ${{ steps.boat.outputs.boat }}"
