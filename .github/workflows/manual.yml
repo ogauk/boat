@@ -9,23 +9,18 @@ on:
     # Inputs the workflow accepts.
     inputs:
       oga_no:
-        # Friendly description to be shown in the UI instead of 'name'
         description: 'Boat OGA No'
-        # Default value if no value is explicitly provided
         default: '315'
-        # Input has to be provided for the workflow to run
         required: true
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "boat"
-  boat:
-    # The type of runner that the job will run on
+  boat_job:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    name: A job to get a boat
     steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: ./.github/scripts/getboat.sh ${{ github.event.inputs.oga_no }}
-      shell: bash
+    - name: get boat action step
+      id: boat
+      uses: ogauk/boat@v1.5
+      with:
+        oga-no: ${{ github.event.inputs.oga_no }}
+    - name: Get the output data
+      run: echo "the data is ${{ steps.boat.outputs.boat }}"
