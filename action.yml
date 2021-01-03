@@ -1,0 +1,13 @@
+name: 'Get Boat'
+description: 'Get a boats data'
+inputs:
+  oga-no:  # id of input
+    description: 'OGA No'
+    required: true
+    default: '315'
+outputs:
+  boat: # id of output
+    description: 'JSON string of the boat data'
+runs:
+  using: 'node12'
+  main: 'index.js'
