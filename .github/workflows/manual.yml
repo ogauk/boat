@@ -8,18 +8,18 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      name:
+      oga_no:
         # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
+        description: 'Boat OGA No'
         # Default value if no value is explicitly provided
-        default: 'World'
+        default: '315'
         # Input has to be provided for the workflow to run
         required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
-  greet:
+  # This workflow contains a single job called "boat"
+  boat:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -27,4 +27,5 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: echo "Hello ${{ github.event.inputs.name }}"
+      run: ./.github/scripts/getboat.sh ${{ github.event.inputs.oga_no }}
+      shell: bash
