@@ -1,4 +1,4 @@
-name: Manual workflow
+name: get boat workflow
 on:
   workflow_dispatch:
     inputs:
