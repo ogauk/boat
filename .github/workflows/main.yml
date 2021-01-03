@@ -8,7 +8,7 @@ jobs:
     steps:
     - name: get boat action step
       id: boat
-      uses: ogauk/boat@v1.3
+      uses: ogauk/boat@v1.4
       with:
         oga-no: '2244'
     # Use the output from the `boat` step
