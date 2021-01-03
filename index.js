@@ -114,7 +114,7 @@ async function create_or_update_boat(oga_no) {
   console.log('x', p);
   const r = await octokit.request(`PUT /repos/ogauk/boat/contents/${path}`, p);
   console.log('put boat from database to repo');
-  console.log('put', r);
+  console.log('r', r);
   return boat;
 }
 
