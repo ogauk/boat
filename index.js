@@ -74,7 +74,6 @@ function fetchMyQuery(oga_no) {
 try {
   const ogaNo = core.getInput('oga-no');
   console.log(`want${ogaNo}`);
-  // const { errors, data } = await fetchMyQuery(oga_no);
   fetchMyQuery(ogaNo).then((data) => {
     core.setOutput("boat", data);
     // Get the JSON webhook payload for the event that triggered the workflow
