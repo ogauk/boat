@@ -100,17 +100,19 @@ function makedoc(boat) {
 async function create_or_update_boat(oga_no) {
   const path = oga_no;
   const p = { owner: 'ogauk', repo: 'boat', path };
-  const data = await octokit.request(`GET /repos/ogauk/boat/contents/${path}`, p);
   try {
-    const r = await get_boat(oga_no);
+    const data = await octokit.request(`GET /repos/ogauk/boat/contents/${path}`, p);
+    console.log('got boat from repo');
     p.sha = r.data.sha;
   } catch(e) {
     console.log('new boat', oga_no);
   }
   p.message = 'update from postgreSQL';
   const boat = await fetchMyQuery(oga_no);
+  console.log('got boat from database');
   p.content = Base64.encode(makedoc(boat));
   const r = await octokit.request(`PUT /repos/ogauk/boat/contents/${path}`, p);
+  console.log('put boat from database to repo');
   console.log('put', r);
   return boat;
 }
@@ -120,8 +122,10 @@ try {
   create_or_update_boat(ogaNo).then((data) => {
     core.setOutput("boat", JSON.stringify(data));
   }).catch(error => {
+    console.log('handled promise error on create_or_update_boat');
     core.setFailed(error.message);
   });
 } catch (error) {
+  console.log('exception in create_or_update_boat');
   core.setFailed(error.message);
 }
