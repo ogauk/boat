@@ -1,3 +1,4 @@
+name: get boat
 on: [push]
 
 jobs:
