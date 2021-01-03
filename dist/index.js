@@ -110,7 +110,7 @@ async function create_or_update_boat(oga_no) {
   const url = `https://api.github.com/repos/ogauk/boat/contents/${path}`;
   const p = { owner: 'ogauk', repo: 'boat', path };
   try {
-    const data = await octokit.request(`GET ${url}`, p);
+    const r = await octokit.request(`GET ${url}`, p);
     console.log('got boat from repo');
     p.sha = r.data.sha;
   } catch(e) {
