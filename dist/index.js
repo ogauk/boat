@@ -83,7 +83,7 @@ try {
   console.log(`want${ogaNo}`);
   // const { errors, data } = await fetchMyQuery(oga_no);
   fetchMyQuery(ogaNo).then((data) => {
-    core.setOutput("boat", time);
+    core.setOutput("boat", data);
     // Get the JSON webhook payload for the event that triggered the workflow
     const payload = JSON.stringify(github.context.payload, undefined, 2)
     console.log(`The event payload: ${payload}`);
