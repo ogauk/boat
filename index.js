@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const fetch = require("node-fetch");
 const {Base64} = require('js-base64');
-const { Octokit } = require("@octokit/rest");
+const { Octokit } = require("@octokit/action");
 
 const octokit = new Octokit();
 
