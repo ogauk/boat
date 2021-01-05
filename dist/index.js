@@ -121,8 +121,7 @@ async function create_or_update_boat(owner, repo, oga_no) {
   p.content = Base64.encode(JSON.stringify(makedoc(boat)));
   const r = await octokit.request(`PUT ${url}`, p);
   console.log('put boat from database to repo');
-  console.log(r);
-  return p.sha;
+  return r.data.content.sha;
 }
 
 try {
