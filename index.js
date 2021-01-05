@@ -99,11 +99,10 @@ function makedoc(boat) {
 }
 
 async function create_or_update_boat(oga_no) {
-  const path = oga_no;
-  const url = `/repos/ogauk/boat/contents/${path}`;
-  const p = { owner: 'ogauk', repo: 'boat', path };
+  const url = `/repos/ogauk/boat/contents/${oga_no}`;
+  const p = { owner: 'ogauk', repo: 'boat', path: `/${oga_no}` };
   try {
-    const r = await octokit.request(`GET ${url}`, p);
+    const r = await octokit.request(`GET ${url}`);
     p.sha = r.data.sha;
     console.log('got boat from repo with sha', p.sha);
   } catch(e) {
@@ -114,13 +113,9 @@ async function create_or_update_boat(oga_no) {
   console.log('got boat from database');
   p.content = Base64.encode(JSON.stringify(makedoc(boat)));
   console.log('before put', p);
-  try {
-    const r = await octokit.request(`PUT ${url}`, p);
-    console.log('put boat from database to repo');
-    console.log('r', r);
-  } catch(e) {
-    console.log('put error', e);
-  }
+  const r = await octokit.request(`PUT ${url}`, p);
+  console.log('put boat from database to repo');
+  console.log('r', r);
   return boat;
 }
 
