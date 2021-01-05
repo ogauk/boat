@@ -128,7 +128,7 @@ async function create_or_update_boat(owner, repo, oga_no) {
 
 try {
   const ogaNo = core.getInput('oga-no');
-  create_or_update_boat(ogaNo).then((data) => {
+  create_or_update_boat('ogauk', 'boat', ogaNo).then((data) => {
     core.setOutput("boat", JSON.stringify(data));
   }).catch(error => {
     console.log('handled promise error on create_or_update_boat', error);
