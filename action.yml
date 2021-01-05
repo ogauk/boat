@@ -4,7 +4,6 @@ inputs:
   oga-no:  # id of input
     description: 'OGA No'
     required: true
-    default: '315'
 outputs:
   boat: # id of output
     description: 'JSON string of the boat data'

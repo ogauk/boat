@@ -113,10 +113,14 @@ async function create_or_update_boat(oga_no) {
   const boat = await fetchMyQuery(oga_no);
   console.log('got boat from database');
   p.content = Base64.encode(JSON.stringify(makedoc(boat)));
-  console.log('x', p);
-  const r = await octokit.request(`PUT ${url}`, p);
-  console.log('put boat from database to repo');
-  console.log('r', r);
+  console.log('before put', p);
+  try {
+    const r = await octokit.request(`PUT ${url}`, p);
+    console.log('put boat from database to repo');
+    console.log('r', r);
+  } catch(e) {
+    console.log('put error', e);
+  }
   return boat;
 }
 
