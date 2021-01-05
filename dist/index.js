@@ -105,10 +105,11 @@ function makedoc(boat) {
   return doc;
 }
 
-async function create_or_update_boat(repo, oga_no) {
+async function create_or_update_boat(repository, oga_no) {
   const path = `/page-data/boat/${oga_no}/page-data.json`;
-  const url = `/repos/${repo}/contents${path}`;
+  const url = `/repos/${repository}/contents${path}`;
   console.log('create_or_update_boat', url);
+  const [owner, repo] = repository.split('/');
   const p = { owner, repo, path };
   try {
     const r = await octokit.request(`GET ${url}`);
