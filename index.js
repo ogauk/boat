@@ -98,9 +98,9 @@ function makedoc(boat) {
   return doc;
 }
 
-async function create_or_update_boat(oga_no) {
-  const url = `/repos/ogauk/boat/contents/${oga_no}`;
-  const p = { owner: 'ogauk', repo: 'boat', path: `/${oga_no}` };
+async function create_or_update_boat(owner, repo, oga_no) {
+  const url = `/repos/${owner}/${repo}/contents/${oga_no}`;
+  const p = { owner, repo, path: `/${oga_no}` };
   try {
     const r = await octokit.request(`GET ${url}`);
     p.sha = r.data.sha;
