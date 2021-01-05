@@ -99,8 +99,9 @@ function makedoc(boat) {
 }
 
 async function create_or_update_boat(owner, repo, oga_no) {
-  const url = `/repos/${owner}/${repo}/contents/${oga_no}`;
-  const p = { owner, repo, path: `/${oga_no}` };
+  const path = `/page-data/boat/${oga_no}/page-data.json`;
+  const url = `/repos/${owner}/${repo}/contents${path}`;
+  const p = { owner, repo, path };
   try {
     const r = await octokit.request(`GET ${url}`);
     p.sha = r.data.sha;
@@ -118,10 +119,11 @@ async function create_or_update_boat(owner, repo, oga_no) {
 }
 
 try {
-  const ogaNo = core.getInput('oga-no');
-  create_or_update_boat('ogauk', 'boat', ogaNo).then((data) => {
+  create_or_update_boat('ogauk', 'boatregister', core.getInput('oga-no'))
+  .then((data) => {
     core.setOutput("sha", data);
-  }).catch(error => {
+  })
+  .catch(error => {
     console.log('handled promise error on create_or_update_boat', error);
     core.setFailed(error.message);
   });
