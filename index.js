@@ -119,7 +119,7 @@ async function create_or_update_boat(owner, repo, oga_no) {
 }
 
 try {
-  create_or_update_boat('ogauk', 'boatregister', core.getInput('oga-no'))
+  create_or_update_boat('ogauk', core.getInput('repo'), core.getInput('oga-no'))
   .then((data) => {
     core.setOutput("sha", data);
   })

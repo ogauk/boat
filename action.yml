@@ -1,6 +1,9 @@
 name: 'Get Boat'
 description: 'Get a boats data'
 inputs:
+  repo:  # id of input
+    description: 'repository to update'
+    required: true
   oga-no:  # id of input
     description: 'OGA No'
     required: true
