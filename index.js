@@ -115,7 +115,6 @@ async function create_or_update_boat(owner, repo, oga_no) {
   console.log('before put', p);
   const r = await octokit.request(`PUT ${url}`, p);
   console.log('put boat from database to repo');
-  console.log('r', r);
   return boat;
 }
 
