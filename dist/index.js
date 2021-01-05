@@ -119,16 +119,16 @@ async function create_or_update_boat(owner, repo, oga_no) {
   const boat = await fetchMyQuery(oga_no);
   console.log('got boat from database');
   p.content = Base64.encode(JSON.stringify(makedoc(boat)));
-  console.log('before put', p);
   const r = await octokit.request(`PUT ${url}`, p);
   console.log('put boat from database to repo');
-  return boat;
+  console.log(r);
+  return p.sha;
 }
 
 try {
   const ogaNo = core.getInput('oga-no');
   create_or_update_boat('ogauk', 'boat', ogaNo).then((data) => {
-    core.setOutput("boat", JSON.stringify(data));
+    core.setOutput("sha", data);
   }).catch(error => {
     console.log('handled promise error on create_or_update_boat', error);
     core.setFailed(error.message);

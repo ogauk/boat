@@ -12,10 +12,10 @@ jobs:
     steps:
     - name: get boat action step
       id: boat
-      uses: ogauk/boat@v1.30
+      uses: ogauk/boat@v1.31
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         oga-no: ${{ github.event.inputs.oga_no }}
     - name: Get the output data
-      run: echo "the data is ${{ steps.boat.outputs.boat }}"
+      run: echo "the sha is ${{ steps.boat.outputs.sha }}"
