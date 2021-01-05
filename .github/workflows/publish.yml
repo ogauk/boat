@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: get boat action step
       id: boat
-      uses: ogauk/boat@v1.22
+      uses: ogauk/boat@v1.23
       with:
         oga-no: ${{ github.event.inputs.oga_no }}
     - name: Get the output data
