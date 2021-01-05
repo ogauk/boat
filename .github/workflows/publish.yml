@@ -13,6 +13,8 @@ jobs:
     - name: get boat action step
       id: boat
       uses: ogauk/boat@v1.30
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         oga-no: ${{ github.event.inputs.oga_no }}
     - name: Get the output data
