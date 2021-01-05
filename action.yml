@@ -5,8 +5,8 @@ inputs:
     description: 'OGA No'
     required: true
 outputs:
-  boat: # id of output
-    description: 'JSON string of the boat data'
+  sha: # id of output
+    description: 'sha of committed data'
 runs:
   using: 'node12'
   main: 'dist/index.js'
