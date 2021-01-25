@@ -28,11 +28,7 @@ const operationsDoc = `
       id name previous_names year year_is_approximate public place_built home_port home_country ssr
       sail_number nhsr nsbr oga_no fishing_number callsign mssi full_description image_key uk_part1
       spar_material
-      constructionMaterialByConstructionMaterial { name }
-      constructionMethodByConstructionMethod { name }
       construction_details
-      designClassByDesignClass { name }
-      designerByDesigner { name }
       draft
       generic_type
       handicap_data
@@ -41,16 +37,21 @@ const operationsDoc = `
       launched
       length_on_deck
       mainsail_type
-      rigTypeByRigType { name }
       sail_type { name }
       short_description
       updated_at
       website
-      genericTypeByGenericType { name }
-      builderByBuilder { name notes }
       beam
       air_draft
       reference
+      builder designer design_class
+      constructionMaterialByConstructionMaterial { name }
+      constructionMethodByConstructionMethod { name }
+      designClassByDesignClass { name }
+      designerByDesigner { name }
+      rigTypeByRigType { name }
+      genericTypeByGenericType { name }
+      builderByBuilder { name notes }
       for_sale_state { text }
       for_sales(limit: 1, order_by: {updated_at: desc}) {
         asking_price
