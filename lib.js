@@ -1,10 +1,5 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
 const fetch = require("node-fetch");
-const {Base64} = require('js-base64');
-const { Octokit } = require("@octokit/action");
-
-const octokit = new Octokit();
+const fs = require('fs');
 
 async function fetchGraphQL(operationsDoc, operationName, variables) {
   const result = await fetch(
@@ -27,8 +22,9 @@ const operationsDoc = `
     boat(where: {oga_no: {_eq: $oga_no}}) {
       id name previous_names year year_is_approximate place_built home_port home_country ssr
       sail_number nhsr nsbr oga_no fishing_number callsign mssi full_description image_key uk_part1
+      rig_type construction_material construction_method
       spar_material
-      rig_type construction_material construction_method construction_details
+      construction_details
       draft
       generic_type
       handicap_data
@@ -37,6 +33,7 @@ const operationsDoc = `
       launched
       length_on_deck
       mainsail_type
+      sail_type { name }
       short_description
       updated_at
       website
@@ -98,39 +95,23 @@ function makedoc(boat) {
   return doc;
 }
 
-async function create_or_update_boat(repository, oga_no) {
+async function create_or_update_boat(oga_no) {
   const path = `/page-data/boat/${oga_no}/page-data.json`;
-  const url = `/repos/${repository}/contents${path}`;
-  console.log('create_or_update_boat', url);
-  const [owner, repo] = repository.split('/');
-  const p = { owner, repo, path };
-  try {
-    const r = await octokit.request(`GET ${url}`);
-    p.sha = r.data.sha;
-    console.log('got boat from repo with sha', p.sha);
-  } catch(e) {
-    console.log('new boat', oga_no);
-  }
-  p.message = 'update from postgreSQL';
+  console.log('create_or_update_boat', oga_no);
   const boat = await fetchMyQuery(oga_no);
+  fs.writeFileSync(`.${path}`, JSON.stringify(makedoc(boat)));
   console.log('got boat from database');
-  p.content = Base64.encode(JSON.stringify(makedoc(boat)));
-  const r = await octokit.request(`PUT ${url}`, p);
-  console.log('put boat from database to repo');
-  return r.data.content.sha;
 }
 
 try {
-  create_or_update_boat(core.getInput('repo'), core.getInput('oga-no'))
+  create_or_update_boat(process.argv[2])
   .then((data) => {
-    core.setOutput("sha", data);
+  	console.log('success');
   })
   .catch(error => {
     console.log('handled promise error on create_or_update_boat', error);
-    core.setFailed(error.message);
   });
 } catch (error) {
   console.log('exception in create_or_update_boat');
-  core.setFailed(error.message);
 }
 
