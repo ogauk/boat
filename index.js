@@ -120,17 +120,46 @@ async function create_or_update_boat(repository, oga_no) {
   return r.data.content.sha;
 }
 
+async function delete_boat(repository, oga_no) {
+  const path = `/page-data/boat/${oga_no}/page-data.json`;
+  const url = `/repos/${repository}/contents${path}`;
+  console.log('delete_boat', url);
+  const [owner, repo] = repository.split('/');
+  const p = { owner, repo, path };
+  try {
+    const r = await octokit.request(`GET ${url}`);
+    p.sha = r.data.sha;
+    console.log('got boat from repo with sha', p.sha);
+  } catch(e) {
+    console.log('no existing boat', oga_no);
+  }
+  const r = await octokit.request(`DELETE ${url}`, p);
+  console.log('remove boat from repo');
+  return r.data.content.sha;
+}
+
 try {
-  create_or_update_boat(core.getInput('repo'), core.getInput('oga-no'))
-  .then((data) => {
-    core.setOutput("sha", data);
-  })
-  .catch(error => {
-    console.log('handled promise error on create_or_update_boat', error);
-    core.setFailed(error.message);
-  });
+  if (core.getInput('oga-no') === 'DELETE') {
+    delete_boat(core.getInput('repo'), core.getInput('oga-no'))
+    .then((data) => {
+      core.setOutput("sha", data);
+    })
+    .catch(error => {
+      console.log('handled promise error on delete_boat', error);
+      core.setFailed(error.message);
+    });  
+  } else {
+    create_or_update_boat(core.getInput('repo'), core.getInput('oga-no'))
+    .then((data) => {
+      core.setOutput("sha", data);
+    })
+    .catch(error => {
+      console.log('handled promise error on create_or_update_boat', error);
+      core.setFailed(error.message);
+    });  
+  }
 } catch (error) {
-  console.log('exception in create_or_update_boat');
+  console.log(`exception in delete, create, or update boat ${core.getInput('oga-no')}`);
   core.setFailed(error.message);
 }
 
