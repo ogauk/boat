@@ -139,7 +139,7 @@ async function delete_boat(repository, oga_no) {
 }
 
 try {
-  if (core.getInput('oga-no') === 'DELETE') {
+  if (core.getInput('op') === 'DELETE') {
     delete_boat(core.getInput('repo'), core.getInput('oga-no'))
     .then((data) => {
       core.setOutput("sha", data);
