@@ -7,6 +7,9 @@ inputs:
   oga-no:  # id of input
     description: 'OGA No'
     required: true
+  op:  # id of input
+    description: 'DELETE, INSERT or UPDATE'
+    required: true
 outputs:
   sha: # id of output
     description: 'sha of committed data'
