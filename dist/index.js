@@ -7601,13 +7601,14 @@ async function delete_boat(repository, oga_no) {
   try {
     const r = await octokit.request(`GET ${url}`);
     p.sha = r.data.sha;
-    console.log('got boat from repo with sha', p.sha);
+    p.message = 'delete from postgreSQL';
+    await octokit.request(`DELETE ${url}`, p);
+    console.log('remove boat from repo');
+    return r.data.content.sha;
   } catch(e) {
     console.log('no existing boat', oga_no);
   }
-  const r = await octokit.request(`DELETE ${url}`, p);
-  console.log('remove boat from repo');
-  return r.data.content.sha;
+  return `nothing to do for ${oga_no}`;
 }
 
 try {
