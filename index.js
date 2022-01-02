@@ -43,6 +43,7 @@ const operationsDoc = `
       beam
       air_draft
       reference
+      ownerships
       builder designer design_class
       constructionMaterialByConstructionMaterial { name }
       constructionMethodByConstructionMethod { name }
